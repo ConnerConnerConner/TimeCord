@@ -1,9 +1,9 @@
 import discord
-import json
+from json import loads
 from decimal import Decimal as d
 
 bot = discord.Bot()
-token = 'INPUT TOKEN HERE'
+token = 'PUT TOKEN HERE'
 
 @bot.event
 async def on_ready():
@@ -16,7 +16,7 @@ def format(time):
     milliseconds = str(time[1])
     minutes = seconds//60
     hours = minutes//60
-    if seconds > 60
+    if seconds > 60:
         seconds = seconds - (minutes * 60)
     if minutes > 60:
         minutes = minutes - (hours * 60)
@@ -34,31 +34,32 @@ def format(time):
 
 @bot.slash_command(name = 'frame', description = 'Retime with the Frame')
 async def frame(ctx, start: discord.Option(int, "Start Time",), end: discord.Option(int, "End Time"), framerate: discord.Option(int, "Framerate")):
-    time = str(round((end - start) / framerate, 3))
-    formatted_time = format(time)
+    formatted_time = format(d(round((end - start) / framerate, 3)))
     await ctx.respond(f'Your Final Time is: {formatted_time}')
 
 @bot.slash_command(name = 'debug_info', description = 'Retime with the Debug Info')
 async def debug_info(ctx, start: discord.Option(str, "Start Time",), end: discord.Option(str, "End Time"), framerate: discord.Option(int, "Framerate")):
     try:
-        start_dict = json.loads(start)
+        start_dict = loads(start)
     except:
-        await ctx.respond('Invalid Start Debug Info')
+        await ctx.respond('Error: Invalid Start Debug Info')
+        return
     try:
-        end_dict = json.loads(end)
+        end_dict = loads(end)
     except:
-        await ctx.respond('Invalid End Debug Info')
+        await ctx.respond('Error: Invalid End Debug Info')
+        return
     try:
         start_cmt = d(start_dict['cmt'])
     except:
-        await ctx.respond('Invalid Start Debug Info')
+        await ctx.respond('Error: Invalid Start Debug Info')
+        return
     try:
         end_cmt = d(end_dict['cmt'])
     except:
-        await ctx.respond('Invalid End Debug Info')
-    time = end_cmt - start_cmt
-    time = d(round(time - time % (d(1)/framerate), 3))
-    formatted_time = format(time)
+        await ctx.respond('Error: Invalid End Debug Info')
+        return
+    formatted_time = format(d(round(end_cmt - start_cmt) - (end_cmt - start_cmt) % (d(1)/framerate), 3))
     await ctx.respond(f'Your Final Time is: {formatted_time}')
     
     
