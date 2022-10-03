@@ -1,4 +1,3 @@
-from symbol import except_clause
 import discord
 from json import loads
 from decimal import Decimal as d
@@ -35,8 +34,19 @@ def format(time):
 
 @bot.slash_command(name = 'frame', description = 'Retime with the Frame')
 async def frame(ctx, start: discord.Option(int, "Start Time",), end: discord.Option(int, "End Time"), framerate: discord.Option(int, "Framerate")):
-    formatted_time = format(d(round((end - start) / framerate, 3)))
-    await ctx.respond(f'Your Final Time is: {formatted_time}')
+    try:
+        time = str(round((end - start) / framerate, 3))
+    except:
+        await ctx.respond('Error: An Unkown Error Occured')
+    try:
+        formatted_time = format(time)
+    except:
+        await ctx.respond('Error: An Unkown Error Occured')
+    embed = discord.Embed(
+        title = 'Final Time', 
+        description = f'Your Final time is: {formatted_time}',
+        color = 0x00ff00)
+    await ctx.respond(embed = embed)
 
 @bot.slash_command(name = 'debug_info', description = 'Retime with the Debug Info')
 async def debug_info(ctx, start: discord.Option(str, "Start Time",), end: discord.Option(str, "End Time"), framerate: discord.Option(int, "Framerate")):
@@ -64,8 +74,19 @@ async def debug_info(ctx, start: discord.Option(str, "Start Time",), end: discor
         framerate = int(framerate)
     except:
         await ctx.respond('Error: Invalid Framerate')
-    formatted_time = format(d(round(end_cmt - start_cmt) - (end_cmt - start_cmt) % (d(1)/framerate), 3))
-    await ctx.respond(f'Your Final Time is: {formatted_time}')
-    
+    try:
+        time = str(round(end_cmt - start_cmt) - (end_cmt - start_cmt) % (d(1)/framerate), 3)
+    except:
+        await ctx.respond('Error: An Unkown Error Occured')
+        print('Alert: An Unkown Error Occured')
+    try:
+        formatted_time = format(time)
+    except:
+        print('Alert: An Unkown Error Occured on Line 73')
+    embed = discord.Embed(
+        title = 'Final Time', 
+        description = f'Your Final time is: {formatted_time}',
+        color = 0x00ff00)
+    await ctx.respond(embed = embed)
     
 bot.run(token)
