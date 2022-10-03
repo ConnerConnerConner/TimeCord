@@ -7,7 +7,7 @@ token = 'PUT TOKEN HERE'
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name='Retime Bot | Made by Conner#4200'))
+    await bot.change_presence(activity=discord.Game(name='TimeCord | Made by Conner#4200'))
     print(f'{bot.user.name} is ready!')
 
 def format(time):
