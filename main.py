@@ -16,9 +16,9 @@ def format(time):
     milliseconds = str(time[1])
     minutes = seconds//60
     hours = minutes//60
-    if seconds > 60:
+    if seconds > 60 or seconds == 60:
         seconds = seconds - (minutes * 60)
-    if minutes > 60:
+    if minutes > 60 or minutes == 60:
         minutes = minutes - (hours * 60)
     if seconds == '0':
         return (f'0s {milliseconds}ms')
@@ -75,7 +75,7 @@ async def debug_info(ctx, start: discord.Option(str, "Start Time",), end: discor
     except:
         await ctx.respond('Error: Invalid Framerate')
     try:
-        time = str(round(end_cmt - start_cmt) - (end_cmt - start_cmt) % (d(1)/framerate), 3)
+        time = str(round((d(end_cmt) - d(start_cmt)) - (d(end_cmt) - d(start_cmt)) % (d(1)/int(framerate)), 3))
     except:
         await ctx.respond('Error: An Unkown Error Occured')
         print('Alert: An Unkown Error Occured')
