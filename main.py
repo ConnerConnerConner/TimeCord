@@ -1,3 +1,4 @@
+from symbol import except_clause
 import discord
 from json import loads
 from decimal import Decimal as d
@@ -59,6 +60,10 @@ async def debug_info(ctx, start: discord.Option(str, "Start Time",), end: discor
     except:
         await ctx.respond('Error: Invalid End Debug Info')
         return
+    try:
+        framerate = int(framerate)
+    except:
+        await ctx.respond('Error: Invalid Framerate')
     formatted_time = format(d(round(end_cmt - start_cmt) - (end_cmt - start_cmt) % (d(1)/framerate), 3))
     await ctx.respond(f'Your Final Time is: {formatted_time}')
     
