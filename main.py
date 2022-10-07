@@ -17,21 +17,21 @@ def format(time):
     milliseconds = str(time[1])
     minutes = seconds//60
     hours = minutes//60
-    if seconds > 60 or seconds == 60:
+    if seconds > 59:
         seconds = seconds - (minutes * 60)
-    if minutes > 60 or minutes == 60:
+    if minutes > 59:
         minutes = minutes - (hours * 60)
     if seconds == '0':
-        return (f'0s {milliseconds}ms')
+        return f'00h 00m 00s {milliseconds}ms'
     elif minutes == '0':
         if len(seconds) == 1:
-            return (f'0{str(seconds)}s {milliseconds}ms')
+            return f'0{str(seconds)}s {milliseconds}ms'
         else:
-            return (f'{str(seconds)}s {milliseconds}ms')
+            return f'{str(seconds)}s {milliseconds}ms'
     elif hours == '0':
-        return (f'{str(minutes)}m {str(seconds)}s {milliseconds}ms')
+        return f'{str(minutes)}m {str(seconds)}s {milliseconds}ms'
     else:
-        return (f'{str(hours)}h {str(minutes)}m {str(seconds)}s {milliseconds}ms')
+        return f'{str(hours)}h {str(minutes)}m {str(seconds)}s {milliseconds}ms'
 
 @bot.slash_command(name = 'frame', description = 'Retime with the Frame')
 async def frame(ctx, start: discord.Option(int, "Start Time",), end: discord.Option(int, "End Time"), framerate: discord.Option(int, "Framerate")):
