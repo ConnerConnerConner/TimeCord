@@ -1,5 +1,5 @@
 
-# ![](https://raw.githubusercontent.com/ConnerConnerConner/TimeCord/main/assets/icon-sized.png)  Time Cord 
+# ![Icon](https://user-images.githubusercontent.com/110003454/202564155-de99589f-16d2-4203-bb8a-dc2a203b7667.png)  Time Cord 
 
 
 An advanced Discord Bot to Retime Runs!
